@@ -21,13 +21,16 @@ if (!process.env.CHROME_BIN) {
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine', '@angular-devkit/build-angular'],
+    // The @angular/build:karma builder injects its own Angular framework plugin
+    // (assets middleware + polyfills) programmatically and explicitly strips the
+    // legacy '@angular-devkit/build-angular' framework/plugin if present, so the
+    // config only needs to declare jasmine and the standard karma plugins here.
+    frameworks: ['jasmine'],
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
       require('karma-coverage'),
-      require('@angular-devkit/build-angular/plugins/karma'),
     ],
     client: {
       jasmine: {},
