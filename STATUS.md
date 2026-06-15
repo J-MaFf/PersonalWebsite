@@ -6,7 +6,7 @@ PersonalWebsite is an Angular 21 single-page application (originally scaffolded 
 
 ## Current State — 2026-06-15
 
-**Health: clean.** `master` builds and tests green, there are no open issues or PRs, and there are 0 open Dependabot alerts / 0 `npm audit` vulnerabilities. The repo installs with a plain `npm install` (no `--legacy-peer-deps` required).
+**Health: clean.** `main` builds and tests green, there are no open issues or PRs, and there are 0 open Dependabot alerts / 0 `npm audit` vulnerabilities. The repo installs with a plain `npm install` (no `--legacy-peer-deps` required).
 
 ### Components
 

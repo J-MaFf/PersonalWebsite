@@ -22,4 +22,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Forced `esbuild` to `0.28.1` to resolve the development-server request vulnerability (GHSA-gv7w-rqvm-qjhr) ([#15](https://github.com/J-MaFf/PersonalWebsite/pull/15)).
 - Resolved the remaining transitive Dependabot alerts (`uuid`, `webpack-dev-server`, and others) via `overrides`, bringing the repo to 0 open alerts and 0 `npm audit` vulnerabilities ([#19](https://github.com/J-MaFf/PersonalWebsite/pull/19)).
 
-[Unreleased]: https://github.com/J-MaFf/PersonalWebsite/commits/master
+[Unreleased]: https://github.com/J-MaFf/PersonalWebsite/commits/main
