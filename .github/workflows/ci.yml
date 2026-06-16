@@ -1,0 +1,36 @@
+# CI workflow — runs on every push and pull_request to main and 2026-review
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - 2026-review
+  pull_request:
+    branches:
+      - main
+      - 2026-review
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Test (headless)
+        run: npm test -- --watch=false --browsers=ChromeHeadlessNoSandbox
