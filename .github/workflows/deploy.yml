@@ -1,0 +1,48 @@
+# Deploy workflow — builds and publishes to GitHub Pages on every push to main.
+# TODO: If you use a custom domain, set BASE_HREF to "/" and configure the
+#       CNAME file in src/ (add it to angular.json assets).
+# TODO: If your repo is not at github.com/J-MaFf/PersonalWebsite, update
+#       the BASE_HREF value and the gh-pages action repository field.
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  # Allow manual runs from the Actions tab
+  workflow_dispatch:
+
+# Grant GITHUB_TOKEN the permissions needed to push to gh-pages
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    name: Build & Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build for GitHub Pages
+        # base-href must match the repository name for project-site deployments.
+        # Change to "/" if you use a custom domain or an apex (user/org) Pages site.
+        run: npm run build -- --base-href /PersonalWebsite/
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist/personal-website/browser
+          # Preserve custom domain CNAME if one is configured
+          keep_files: false
