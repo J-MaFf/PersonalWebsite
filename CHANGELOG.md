@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Fixed invalid `dependabot.yml` `package-ecosystem` value from empty string to `"npm"` so Dependabot version updates actually run.
+
 ### Added
 - `STATUS.md` and `CHANGELOG.md` to track project state and history ([#27](https://github.com/J-MaFf/PersonalWebsite/pull/27)).
 
