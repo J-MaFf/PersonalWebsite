@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added GitHub Actions CI workflow (`.github/workflows/ci.yml`) that runs `ng build` and `ng test --watch=false` on every push and PR targeting `main` or `2026-review`.
 - Replaced the default Angular CLI scaffold template in `app.component.html` with a clean personal website structure: sticky header/nav, hero section, About, Projects grid, Contact, and footer. Styles moved to `app.component.css`; added `currentYear` property to the component; updated specs to cover the new sections.
 - `STATUS.md` and `CHANGELOG.md` to track project state and history ([#27](https://github.com/J-MaFf/PersonalWebsite/pull/27)).
 
