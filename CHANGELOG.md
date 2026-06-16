@@ -7,11 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Replaced the default Angular CLI scaffold template in `app.component.html` with a clean personal website structure: sticky header/nav, hero section, About, Projects grid, Contact, and footer. Styles moved to `app.component.css`; added `currentYear` property to the component; updated specs to cover the new sections.
+- `STATUS.md` and `CHANGELOG.md` to track project state and history ([#27](https://github.com/J-MaFf/PersonalWebsite/pull/27)).
+
 ### Fixed
 - Fixed invalid `dependabot.yml` `package-ecosystem` value from empty string to `"npm"` so Dependabot version updates actually run.
 
-### Added
-- `STATUS.md` and `CHANGELOG.md` to track project state and history ([#27](https://github.com/J-MaFf/PersonalWebsite/pull/27)).
 
 ### Changed
 - Migrated the unit-test target from the legacy `@angular-devkit/build-angular:karma` builder to `@angular/build:karma` (esbuild-based); added `@angular/build` as an explicit devDependency ([#24](https://github.com/J-MaFf/PersonalWebsite/pull/24)).
