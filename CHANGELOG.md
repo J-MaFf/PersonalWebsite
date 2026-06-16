@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Set GitHub repository description and homepage URL via `gh repo edit` (description: "Personal portfolio website built with Angular 21, deployed to GitHub Pages"; homepage: https://j-maff.github.io/PersonalWebsite/).
 - Added `.github/workflows/deploy.yml` — GitHub Pages deploy pipeline that builds with `--base-href /PersonalWebsite/` and publishes `dist/personal-website/browser` via `peaceiris/actions-gh-pages` on every push to `main` (TODO comments guide custom-domain and base-href changes).
 - Added GitHub Actions CI workflow (`.github/workflows/ci.yml`) that runs `ng build` and `ng test --watch=false` on every push and PR targeting `main` or `2026-review`.
 - Replaced the default Angular CLI scaffold template in `app.component.html` with a clean personal website structure: sticky header/nav, hero section, About, Projects grid, Contact, and footer. Styles moved to `app.component.css`; added `currentYear` property to the component; updated specs to cover the new sections.
