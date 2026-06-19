@@ -21,10 +21,44 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('PersonalWebsite');
   });
 
-  it('should render the main content', () => {
+  it('should expose the current year', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app.currentYear).toEqual(new Date().getFullYear());
+  });
+
+  it('should render the main content wrapper', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('.content')).not.toBeNull();
+  });
+
+  it('should render the hero section', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.hero')).not.toBeNull();
+  });
+
+  it('should render the projects section', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.section-projects')).not.toBeNull();
+  });
+
+  it('should render the about section', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.section-about')).not.toBeNull();
+  });
+
+  it('should render the contact section', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('.section-contact')).not.toBeNull();
   });
 });
