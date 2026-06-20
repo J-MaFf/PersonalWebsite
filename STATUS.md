@@ -36,15 +36,17 @@ PersonalWebsite is an Angular 22 single-page application (originally scaffolded 
 | [#23](https://github.com/J-MaFf/PersonalWebsite/issues/23) | Bump zone.js off the stale `~0.13.0` pin | [#25](https://github.com/J-MaFf/PersonalWebsite/pull/25) |
 | [#54](https://github.com/J-MaFf/PersonalWebsite/issues/54) | Upgrade Angular 21 → 22 (unblocks TypeScript 6.0) | [#55](https://github.com/J-MaFf/PersonalWebsite/pull/55) |
 | [#46](https://github.com/J-MaFf/PersonalWebsite/issues/46) | Security: vite / webpack-dev-server / @babel/core Dependabot alerts | [#55](https://github.com/J-MaFf/PersonalWebsite/pull/55) |
-| [#56](https://github.com/J-MaFf/PersonalWebsite/issues/56) | Post-Angular-22 cleanup: application builder + clear deprecations | _this PR_ |
+| [#56](https://github.com/J-MaFf/PersonalWebsite/issues/56) | Post-Angular-22 cleanup: application builder + clear deprecations | [#57](https://github.com/J-MaFf/PersonalWebsite/pull/57) |
 
 ### Open Issues
 
-None tracked. See Natural Next Steps for deferred follow-up work (no issue filed yet).
+| Issue | Description | Status |
+|---|---|---|
+| [#58](https://github.com/J-MaFf/PersonalWebsite/issues/58) | Optional: migrate unit tests from Karma to Vitest (browserless; sheds deprecated transitives) | Deferred — current headless Karma setup works |
 
 ## Natural Next Steps
 
-- **(Optional) Karma → Vitest** (`ng update @angular/cli --name migrate-karma-to-vitest`) for a faster browserless unit-test loop. This also sheds the last deprecated transitive deps (`inflight`/`glob`/`rimraf`), which now come only from Karma. The current headless Karma setup works and was intentionally kept.
+- **(Optional) Karma → Vitest** ([#58](https://github.com/J-MaFf/PersonalWebsite/issues/58)) — `ng update @angular/cli --name migrate-karma-to-vitest` for a faster browserless unit-test loop. This also sheds the last deprecated transitive deps (`inflight`/`glob`/`rimraf`), which now come only from Karma. The current headless Karma setup works and was intentionally kept.
 - **Trim `app.component.css`** — at 2.8 kB it exceeds the 2 kB component-style budget, producing a non-blocking build **warning**. Either trim the styles or raise the `anyComponentStyle` budget in `angular.json`.
 - Replace the placeholder `AppComponent` content and add real routes (with specs) as pages are built.
 
