@@ -1,6 +1,6 @@
 # PersonalWebsite
 
-A personal portfolio/website built with [Angular](https://angular.dev) (v21).
+A personal portfolio/website built with [Angular](https://angular.dev) (v22).
 
 > **Work in progress.** The homepage structure is in place; personal content (bio, projects, contact) is marked with `<!-- TODO: ... -->` comments and needs to be filled in.
 
@@ -10,9 +10,9 @@ A personal portfolio/website built with [Angular](https://angular.dev) (v21).
 
 | Area | Tool |
 |---|---|
-| Framework | Angular 21 (NgModule, non-standalone) |
-| Build | Angular CLI / esbuild (`@angular-devkit/build-angular`) |
-| Tests | Karma + Jasmine + headless Chromium (via Puppeteer) |
+| Framework | Angular 22 (NgModule, non-standalone) |
+| Build | Angular CLI / esbuild (`@angular/build:application`) |
+| Tests | Vitest (browserless, jsdom) via `@angular/build:unit-test` |
 | CI | GitHub Actions (`.github/workflows/ci.yml`) |
 | Hosting | GitHub Pages (`.github/workflows/deploy.yml`) |
 
@@ -22,7 +22,7 @@ A personal portfolio/website built with [Angular](https://angular.dev) (v21).
 
 ### Prerequisites
 
-- **Node.js 22.x** and npm 10.x
+- **Node.js ≥ 22.22.3** (24.x recommended; CI runs 24) and npm 10+/11+
 
 ### Install
 
@@ -55,12 +55,12 @@ npm run build -- --base-href /PersonalWebsite/
 ### Test
 
 ```bash
-npm test -- --watch=false --browsers=ChromeHeadlessNoSandbox
+npm test -- --watch=false
 ```
 
-Chromium is bundled by the `puppeteer` devDependency — no system Chrome required.
-On Linux without a sandbox (e.g. a Docker container or GitHub Actions),
-the `ChromeHeadlessNoSandbox` launcher in `karma.conf.js` adds `--no-sandbox` automatically.
+Tests run on **Vitest** in a Node.js + jsdom environment — no browser, Chromium, or
+Puppeteer required. The `@angular/build:unit-test` builder provides the DOM via the
+`jsdom` devDependency, so the suite runs the same way locally, in containers, and in CI.
 
 ---
 

@@ -32,5 +32,5 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Test (headless)
-        run: npm test -- --watch=false --browsers=ChromeHeadlessNoSandbox
+      - name: Test (browserless)
+        run: npm test -- --watch=false
