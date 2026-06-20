@@ -8,11 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- Migrated `build`/`serve` from the deprecated `@angular-devkit/build-angular` webpack builders to the esbuild/Vite-based `@angular/build:application` and `@angular/build:dev-server` (`ng update @angular/cli --name use-application-builder`). Corrected the schematic's leftover `browserTarget` keys to `buildTarget` (required by the new builders) and repointed the GitHub Pages deploy at the new `dist/personal-website/browser` output. This cleared every remaining `npm audit` finding — the `http-proxy-middleware` (high) and `piscina` (high) advisories — bringing the repo to **0 vulnerabilities** and shrinking the dependency tree from ~970 to ~550 packages ([#56](https://github.com/J-MaFf/PersonalWebsite/issues/56)).
+- Bootstrapped the app with `platformBrowser()` from `@angular/platform-browser` instead of the deprecated `platformBrowserDynamic` from `@angular/platform-browser-dynamic` ([#56](https://github.com/J-MaFf/PersonalWebsite/issues/56)).
 - Upgraded Angular 21 → 22 across all `@angular/*` packages, `@angular-devkit/build-angular`, and `@angular/build` (`^22`), via `ng update`; adopted **TypeScript 6.0** (`~6.0.3`), superseding the standalone Dependabot bump (#53). Applied the v22 migration schematics: `ChangeDetectionStrategy.Eager` on `AppComponent` and suppressed `nullishCoalescingNotNullable`/`optionalChainNotNullable` extended diagnostics ([#54](https://github.com/J-MaFf/PersonalWebsite/issues/54)).
 - Bumped CI (`.github/workflows/ci.yml`) and the local toolchain to **Node.js 24** to satisfy Angular 22's minimum-Node requirement (`^22.22.3 || ^24.15.0 || >=26.0.0`).
 - Removed the `baseUrl` (no `paths` mapping) and `downlevelIteration` (no-op at the ES2022 target) compiler options from `tsconfig.json` — both are deprecated and error under TypeScript 6.0.
 
 ### Removed
+- Removed the unused, deprecated `@angular/animations` dependency (imported nowhere) and the deprecated `@angular/platform-browser-dynamic` dependency, along with the entire `@angular-devkit/build-angular` webpack toolchain ([#56](https://github.com/J-MaFf/PersonalWebsite/issues/56)).
+- Dropped the now-dead `webpack-dev-server` and `uuid` `overrides` pins (no longer in the dependency tree after the webpack builder removal) and added a `piscina` pin (`^5.2.0`) to resolve its RCE advisory; kept the still-load-bearing `esbuild` and `@babel/core` pins ([#56](https://github.com/J-MaFf/PersonalWebsite/issues/56)).
 - Dropped the now-redundant `vite`, `ws`, `engine.io`, and `socket.io-adapter` `overrides` pins — Angular 22 resolves each to a safe version naturally (verified: `npm audit` count unchanged). Kept the `esbuild`, `uuid`, `webpack-dev-server`, and `@babel/core` pins, which still patch transitive advisories.
 
 ### Added
