@@ -2,13 +2,13 @@
 
 ## What This Is
 
-PersonalWebsite is an Angular 22 single-page application (originally scaffolded with Angular CLI 16 and since upgraded). It uses the NgModule-based app structure (`AppModule`, `AppRoutingModule`) with a single `AppComponent`. The entire toolchain now runs on the modern esbuild/Vite-based `@angular/build` builders — `build` on `@angular/build:application`, `serve` on `@angular/build:dev-server`, and unit tests on `@angular/build:karma` (Karma + Jasmine, headless Chromium). The legacy `@angular-devkit/build-angular` webpack builder has been removed.
+PersonalWebsite is an Angular 22 single-page application (originally scaffolded with Angular CLI 16 and since upgraded). It uses the NgModule-based app structure (`AppModule`, `AppRoutingModule`) with a single `AppComponent`. The entire toolchain now runs on the modern esbuild/Vite-based `@angular/build` builders — `build` on `@angular/build:application`, `serve` on `@angular/build:dev-server`, and unit tests on `@angular/build:unit-test` (Vitest, browserless via jsdom). The legacy `@angular-devkit/build-angular` webpack builder and the Karma/Jasmine/Puppeteer test stack have both been removed.
 
 ## Current State — 2026-06-20
 
-**Health: green.** `npm ci` resolves cleanly (no `--legacy-peer-deps`), `ng build` succeeds on the application builder (no deprecation notice), and `ng test` passes 8/8 headless. The project is on **Angular 22.0.x** and **TypeScript 6.0.x**, running on **Node.js 24.x**.
+**Health: green.** `npm ci` resolves cleanly (no `--legacy-peer-deps`) **with zero deprecation warnings**, `ng build` succeeds on the application builder (no deprecation notice), and `ng test` passes 8/8 **browserless** on Vitest (jsdom). The project is on **Angular 22.0.x** and **TypeScript 6.0.x**, running on **Node.js 24.x**.
 
-**`npm audit` reports 0 vulnerabilities.** Migrating off the webpack builder removed the entire `webpack-dev-server` → `http-proxy-middleware` chain and shrank the dependency tree from ~970 to ~550 packages; the remaining `piscina` RCE is patched via an `overrides` pin to `^5.2.0`. The `esbuild` and `@babel/core` pins remain load-bearing (their parents pin exact vulnerable versions — `@angular/build`/`compiler-cli` pin `@babel/core` to 7.29.0); the now-dead `webpack-dev-server` and `uuid` pins were dropped.
+**`npm audit` reports 0 vulnerabilities.** Migrating off the webpack builder removed the entire `webpack-dev-server` → `http-proxy-middleware` chain; the subsequent Karma → Vitest migration dropped the Karma/Jasmine/Puppeteer stack — which removed the last deprecated transitives (`inflight`, `glob@7`, `rimraf@3`) and shrank the dependency tree to ~453 packages (down from ~970 pre-cleanup). The remaining `piscina` RCE is patched via an `overrides` pin to `^5.2.0`. The `esbuild` and `@babel/core` pins remain load-bearing (their parents pin exact vulnerable versions — `@angular/build`/`compiler-cli` pin `@babel/core` to 7.29.0); the now-dead `webpack-dev-server` and `uuid` pins were dropped.
 
 ### Components
 
@@ -18,10 +18,10 @@ PersonalWebsite is an Angular 22 single-page application (originally scaffolded 
 | `src/app/app-routing.module.ts` | Router configuration (currently an empty route table). |
 | `src/app/app.component.*` | Root component (`app-root`): TypeScript, template, styles, and spec. Non-standalone (`standalone: false`); `changeDetection: ChangeDetectionStrategy.Eager` (set by the v22 migration to preserve pre-v22 behavior). |
 | `src/main.ts` | Bootstraps `AppModule` via `platformBrowser()` from `@angular/platform-browser` (migrated off the deprecated `platformBrowserDynamic`). |
-| `angular.json` | All targets on `@angular/build` — `build` → `:application`, `serve` → `:dev-server`, `test` → `:karma` (esbuild/Vite). |
+| `angular.json` | All targets on `@angular/build` — `build` → `:application`, `serve` → `:dev-server`, `test` → `:unit-test` (Vitest runner). The `test` target builds via a dedicated `build:testing` configuration that adds the `zone.js/testing` polyfill. |
 | `tsconfig.json` | TS 6.0 compatible — dropped `baseUrl`/`downlevelIteration`; `esModuleInterop` added by the application-builder migration. |
-| `karma.conf.js` | Headless test config — resolves `CHROME_BIN` from Puppeteer's bundled Chromium and defines the `ChromeHeadlessNoSandbox` launcher. |
-| `.github/workflows/ci.yml` | CI — builds and tests headless on Node.js 24 for every push/PR to `main` or `2026-review`. |
+| `tsconfig.spec.json` | Spec tsconfig — `types: ["vitest/globals"]` (was `["jasmine"]`), so `describe`/`it`/`expect` resolve to Vitest globals. |
+| `.github/workflows/ci.yml` | CI — builds and tests browserless on Node.js 24 for every push/PR to `main` or `2026-review`. |
 | `.github/dependabot.yml` | Dependabot configuration for the npm ecosystem. |
 
 ### Resolved Issues
@@ -37,16 +37,14 @@ PersonalWebsite is an Angular 22 single-page application (originally scaffolded 
 | [#54](https://github.com/J-MaFf/PersonalWebsite/issues/54) | Upgrade Angular 21 → 22 (unblocks TypeScript 6.0) | [#55](https://github.com/J-MaFf/PersonalWebsite/pull/55) |
 | [#46](https://github.com/J-MaFf/PersonalWebsite/issues/46) | Security: vite / webpack-dev-server / @babel/core Dependabot alerts | [#55](https://github.com/J-MaFf/PersonalWebsite/pull/55) |
 | [#56](https://github.com/J-MaFf/PersonalWebsite/issues/56) | Post-Angular-22 cleanup: application builder + clear deprecations | [#57](https://github.com/J-MaFf/PersonalWebsite/pull/57) |
+| [#58](https://github.com/J-MaFf/PersonalWebsite/issues/58) | Migrate unit tests from Karma to Vitest (browserless; sheds deprecated transitives) | [#60](https://github.com/J-MaFf/PersonalWebsite/pull/60) |
 
 ### Open Issues
 
-| Issue | Description | Status |
-|---|---|---|
-| [#58](https://github.com/J-MaFf/PersonalWebsite/issues/58) | Optional: migrate unit tests from Karma to Vitest (browserless; sheds deprecated transitives) | Deferred — current headless Karma setup works |
+None.
 
 ## Natural Next Steps
 
-- **(Optional) Karma → Vitest** ([#58](https://github.com/J-MaFf/PersonalWebsite/issues/58)) — `ng update @angular/cli --name migrate-karma-to-vitest` for a faster browserless unit-test loop. This also sheds the last deprecated transitive deps (`inflight`/`glob`/`rimraf`), which now come only from Karma. The current headless Karma setup works and was intentionally kept.
 - **Trim `app.component.css`** — at 2.8 kB it exceeds the 2 kB component-style budget, producing a non-blocking build **warning**. Either trim the styles or raise the `anyComponentStyle` budget in `angular.json`.
 - Replace the placeholder `AppComponent` content and add real routes (with specs) as pages are built.
 
@@ -56,4 +54,4 @@ PersonalWebsite is an Angular 22 single-page application (originally scaffolded 
 - Install dependencies: `npm install` (or `npm ci`).
 - Develop: `npm start` (serves at `http://localhost:4200`).
 - Build: `npm run build`.
-- Test (headless): `npx ng test --watch=false`. Chromium is provided by the `puppeteer` devDependency and downloaded into the Puppeteer cache on `npm install`; no system Chrome is required. On a server running as root or in a container, the `ChromeHeadlessNoSandbox` launcher in `karma.conf.js` supplies the required `--no-sandbox` flag.
+- Test (browserless): `npx ng test --watch=false`. Tests run on **Vitest** in a Node.js + jsdom environment — no browser, Chromium, or Puppeteer required. The `@angular/build:unit-test` builder provides the DOM via the `jsdom` devDependency, so the suite runs identically locally, in containers, and in CI.
