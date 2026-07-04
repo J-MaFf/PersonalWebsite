@@ -4,7 +4,7 @@
 
 PersonalWebsite is an Angular 22 single-page application (originally scaffolded with Angular CLI 16 and since upgraded). It uses the NgModule-based app structure (`AppModule`, `AppRoutingModule`) with a single `AppComponent`. The entire toolchain now runs on the modern esbuild/Vite-based `@angular/build` builders — `build` on `@angular/build:application`, `serve` on `@angular/build:dev-server`, and unit tests on `@angular/build:unit-test` (Vitest, browserless via jsdom). The legacy `@angular-devkit/build-angular` webpack builder and the Karma/Jasmine/Puppeteer test stack have both been removed.
 
-## Current State — 2026-06-20
+## Current State — 2026-07-04
 
 **Health: green.** `npm ci` resolves cleanly (no `--legacy-peer-deps`) **with zero deprecation warnings**, `ng build` succeeds on the application builder (no deprecation notice), and `ng test` passes 8/8 **browserless** on Vitest (jsdom). The project is on **Angular 22.0.x** and **TypeScript 6.0.x**, running on **Node.js 24.x**.
 
@@ -23,6 +23,8 @@ PersonalWebsite is an Angular 22 single-page application (originally scaffolded 
 | `tsconfig.spec.json` | Spec tsconfig — `types: ["vitest/globals"]` (was `["jasmine"]`), so `describe`/`it`/`expect` resolve to Vitest globals. |
 | `.github/workflows/ci.yml` | CI — builds and tests browserless on Node.js 24 for every push/PR to `main` or `2026-review`. |
 | `.github/dependabot.yml` | Dependabot configuration for the npm ecosystem. |
+| `.beads/` | Beads (`bd`) task/memory layer beneath GitHub Issues. Dolt-only sync: only `config.yaml` + `metadata.json` (+ `README.md`, `.gitignore`) are tracked; bead state syncs via `refs/dolt/data` (`bd dolt push`/`pull`). |
+| `CLAUDE.md` / `AGENTS.md` | Repo-level AI-agent rules: build/test commands, architecture, and the beads workflow reconciled with git-policies (issue → branch → PR stays the shippable unit; merges human-gated). |
 
 ### Resolved Issues
 
@@ -38,10 +40,14 @@ PersonalWebsite is an Angular 22 single-page application (originally scaffolded 
 | [#46](https://github.com/J-MaFf/PersonalWebsite/issues/46) | Security: vite / webpack-dev-server / @babel/core Dependabot alerts | [#55](https://github.com/J-MaFf/PersonalWebsite/pull/55) |
 | [#56](https://github.com/J-MaFf/PersonalWebsite/issues/56) | Post-Angular-22 cleanup: application builder + clear deprecations | [#57](https://github.com/J-MaFf/PersonalWebsite/pull/57) |
 | [#58](https://github.com/J-MaFf/PersonalWebsite/issues/58) | Migrate unit tests from Karma to Vitest (browserless; sheds deprecated transitives) | [#60](https://github.com/J-MaFf/PersonalWebsite/pull/60) |
+| [#61](https://github.com/J-MaFf/PersonalWebsite/issues/61) | Adopt beads (`bd`) for AI task tracking | [#70](https://github.com/J-MaFf/PersonalWebsite/pull/70) |
 
 ### Open Issues
 
-None.
+| Issue | Description |
+|---|---|
+| [#62](https://github.com/J-MaFf/PersonalWebsite/issues/62) | Serve site at custom domain jmaff.dev (apex root) — branch `feat/apex-domain-jmaff-dev` |
+| [#69](https://github.com/J-MaFf/PersonalWebsite/issues/69) | Manual DNS + Pages setup to bring jmaff.dev live |
 
 ## Natural Next Steps
 
