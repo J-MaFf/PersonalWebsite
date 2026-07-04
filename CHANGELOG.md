@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Brought **https://jmaff.dev** live: enabled GitHub Pages (source `gh-pages`, first-ever enablement — the repo's `has_pages` was false, so the old project URL had never actually served), which auto-adopted the published `CNAME` as the custom domain, and turned on Enforce HTTPS once the certificate provisioned. Updated the repo homepage/description to the new URL ([#69](https://github.com/J-MaFf/PersonalWebsite/issues/69)).
 - Adopted **beads** (`bd`, embedded Dolt) as the task/memory layer beneath GitHub Issues, with the dolt-only `.beads/` convention (JSONL exports and hook shims gitignored; state syncs via `refs/dolt/data`). Added repo-level `CLAUDE.md` (build/test commands, architecture, beads workflow reconciled with git-policies) and `AGENTS.md`, plus a SessionStart `bd prime` hook in `.claude/settings.json` ([#70](https://github.com/J-MaFf/PersonalWebsite/pull/70)).
 
 ### Changed
