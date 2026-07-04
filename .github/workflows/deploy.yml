@@ -1,8 +1,7 @@
 # Deploy workflow — builds and publishes to GitHub Pages on every push to main.
-# TODO: If you use a custom domain, set BASE_HREF to "/" and configure the
-#       CNAME file in src/ (add it to angular.json assets).
-# TODO: If your repo is not at github.com/J-MaFf/PersonalWebsite, update
-#       the BASE_HREF value and the gh-pages action repository field.
+# Custom domain: the site is served at the apex root https://jmaff.dev/, so the
+# build uses --base-href "/" and src/CNAME (registered in angular.json assets) is
+# copied into the published output on every deploy, surviving keep_files: false.
 name: Deploy to GitHub Pages
 
 on:
@@ -35,14 +34,17 @@ jobs:
         run: npm ci
 
       - name: Build for GitHub Pages
-        # base-href must match the repository name for project-site deployments.
-        # Change to "/" if you use a custom domain or an apex (user/org) Pages site.
-        run: npm run build -- --base-href /PersonalWebsite/
+        # Served at the apex custom domain https://jmaff.dev/, so base-href is "/".
+        # (For a project-site deployment at /PersonalWebsite/ this would need to
+        #  match the repository name instead.)
+        run: npm run build -- --base-href /
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist/personal-website/browser
-          # Preserve custom domain CNAME if one is configured
+          # keep_files: false wipes gh-pages on each deploy; the custom-domain
+          # CNAME survives because it ships inside the build output (src/CNAME,
+          # registered in angular.json assets) rather than living only on gh-pages.
           keep_files: false

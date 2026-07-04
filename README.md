@@ -14,7 +14,7 @@ A personal portfolio/website built with [Angular](https://angular.dev) (v22).
 | Build | Angular CLI / esbuild (`@angular/build:application`) |
 | Tests | Vitest (browserless, jsdom) via `@angular/build:unit-test` |
 | CI | GitHub Actions (`.github/workflows/ci.yml`) |
-| Hosting | GitHub Pages (`.github/workflows/deploy.yml`) |
+| Hosting | GitHub Pages at the apex custom domain [jmaff.dev](https://jmaff.dev/) (`.github/workflows/deploy.yml`) |
 
 ---
 
@@ -46,11 +46,15 @@ npm run build
 
 Output is written to `dist/personal-website/`.
 
-For a GitHub Pages build (sets the correct `base-href`):
+The site is served at the apex custom domain **<https://jmaff.dev/>**, so the GitHub Pages
+build uses the root `base-href`:
 
 ```bash
-npm run build -- --base-href /PersonalWebsite/
+npm run build -- --base-href /
 ```
+
+The `src/CNAME` file (registered in `angular.json` assets) is copied into the build output
+on every deploy, so the custom domain survives `keep_files: false` on each publish.
 
 ### Test
 
@@ -71,7 +75,9 @@ Puppeteer required. The `@angular/build:unit-test` builder provides the DOM via 
 | Build & Test | `.github/workflows/ci.yml` | Push / PR to `main` or `2026-review` |
 | Deploy to GitHub Pages | `.github/workflows/deploy.yml` | Push to `main` |
 
-To activate GitHub Pages: **Settings → Pages → Source → "Deploy from a branch" → `gh-pages`**.
+To activate GitHub Pages: **Settings → Pages → Source → "Deploy from a branch" → `gh-pages`**,
+then set the custom domain to `jmaff.dev` and enable **Enforce HTTPS** once the certificate
+provisions (`.dev` is HSTS-preloaded, so HTTPS is mandatory).
 
 ---
 

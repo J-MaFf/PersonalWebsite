@@ -10,6 +10,8 @@ PersonalWebsite is an Angular 22 single-page application (originally scaffolded 
 
 **`npm audit` reports 0 vulnerabilities.** Migrating off the webpack builder removed the entire `webpack-dev-server` → `http-proxy-middleware` chain; the subsequent Karma → Vitest migration dropped the Karma/Jasmine/Puppeteer stack — which removed the last deprecated transitives (`inflight`, `glob@7`, `rimraf@3`) and shrank the dependency tree to ~453 packages (down from ~970 pre-cleanup). The remaining `piscina` RCE is patched via an `overrides` pin to `^5.2.0`. The `esbuild` and `@babel/core` pins remain load-bearing (their parents pin exact vulnerable versions — `@angular/build`/`compiler-cli` pin `@babel/core` to 7.29.0); the now-dead `webpack-dev-server` and `uuid` pins were dropped.
 
+**Hosting.** The site is served from GitHub Pages (`gh-pages` branch) at the apex custom domain **`https://jmaff.dev/`**. The deploy build uses `--base-href /` and ships `src/CNAME` (`jmaff.dev`, registered in `angular.json` assets) into the published output so the custom domain survives `keep_files: false` on each deploy ([#62](https://github.com/J-MaFf/PersonalWebsite/issues/62)).
+
 ### Components
 
 | File / Area | Description |
@@ -41,12 +43,12 @@ PersonalWebsite is an Angular 22 single-page application (originally scaffolded 
 | [#56](https://github.com/J-MaFf/PersonalWebsite/issues/56) | Post-Angular-22 cleanup: application builder + clear deprecations | [#57](https://github.com/J-MaFf/PersonalWebsite/pull/57) |
 | [#58](https://github.com/J-MaFf/PersonalWebsite/issues/58) | Migrate unit tests from Karma to Vitest (browserless; sheds deprecated transitives) | [#60](https://github.com/J-MaFf/PersonalWebsite/pull/60) |
 | [#61](https://github.com/J-MaFf/PersonalWebsite/issues/61) | Adopt beads (`bd`) for AI task tracking | [#70](https://github.com/J-MaFf/PersonalWebsite/pull/70) |
+| [#62](https://github.com/J-MaFf/PersonalWebsite/issues/62) | Serve site at apex custom domain `jmaff.dev` (CNAME + `--base-href /`) | [#68](https://github.com/J-MaFf/PersonalWebsite/pull/68) |
 
 ### Open Issues
 
 | Issue | Description |
 |---|---|
-| [#62](https://github.com/J-MaFf/PersonalWebsite/issues/62) | Serve site at custom domain jmaff.dev (apex root) — branch `feat/apex-domain-jmaff-dev` |
 | [#69](https://github.com/J-MaFf/PersonalWebsite/issues/69) | Manual DNS + Pages setup to bring jmaff.dev live |
 
 ## Natural Next Steps
