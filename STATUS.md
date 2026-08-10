@@ -4,7 +4,7 @@
 
 PersonalWebsite is an Angular 22 single-page application (originally scaffolded with Angular CLI 16 and since upgraded). It uses the NgModule-based app structure (`AppModule`, `AppRoutingModule`) with a single `AppComponent`. The entire toolchain now runs on the modern esbuild/Vite-based `@angular/build` builders — `build` on `@angular/build:application`, `serve` on `@angular/build:dev-server`, and unit tests on `@angular/build:unit-test` (Vitest, browserless via jsdom). The legacy `@angular-devkit/build-angular` webpack builder and the Karma/Jasmine/Puppeteer test stack have both been removed.
 
-## Current State — 2026-07-04
+## Current State — 2026-08-10
 
 **Health: green.** `npm ci` resolves cleanly (no `--legacy-peer-deps`) **with zero deprecation warnings**, `ng build` succeeds on the application builder (no deprecation notice), and `ng test` passes 8/8 **browserless** on Vitest (jsdom). The project is on **Angular 22.0.x** and **TypeScript 6.0.x**, running on **Node.js 24.x**.
 
@@ -45,6 +45,7 @@ PersonalWebsite is an Angular 22 single-page application (originally scaffolded 
 | [#61](https://github.com/J-MaFf/PersonalWebsite/issues/61) | Adopt beads (`bd`) for AI task tracking | [#70](https://github.com/J-MaFf/PersonalWebsite/pull/70) |
 | [#62](https://github.com/J-MaFf/PersonalWebsite/issues/62) | Serve site at apex custom domain `jmaff.dev` (CNAME + `--base-href /`) | [#68](https://github.com/J-MaFf/PersonalWebsite/pull/68) |
 | [#69](https://github.com/J-MaFf/PersonalWebsite/issues/69) | DNS + Pages setup to bring jmaff.dev live (Pages enabled + custom domain + HTTPS via API) | — (no PR; settings change) |
+| [#86](https://github.com/J-MaFf/PersonalWebsite/issues/86) | Adopt shared reusable claude.yml workflow from J-MaFf/.github | [#87](https://github.com/J-MaFf/PersonalWebsite/pull/87) |
 
 ### Open Issues
 
