@@ -9,3 +9,8 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    groups:
+      angular:
+        patterns:
+          - "@angular/*"
+          - "typescript" # peer-locked to @angular/build's supported TS range
